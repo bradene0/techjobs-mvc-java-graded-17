@@ -19,18 +19,19 @@
   </tr>
   <tr>
     <!-- TODO #2: Complete the View Jobs By Category Table. -->
-
-    <td></td> <!-- Feel free to remove or modify this element if necessary. -->
+    <!-- Fill in the cell for the "All" column with a link. -->
+    <td>
+      <a th:href="@{/list/jobs(column='all', value='')}">All</a>
+    </td>
 
     <td th:each="category : ${tableChoices}">
       <ul>
         <li th:each="item : ${category.value}">
-          <a th:href="@{/list/jobs(column=${category.key},value=${item})}" th:text="${item}"></a>
+          <a th:href="@{/list/jobs(column=${category.key}, value=${item})}" th:text="${item}"></a>
         </li>
       </ul>
     </td>
   </tr>
 </table>
-
 </body>
 </html>
