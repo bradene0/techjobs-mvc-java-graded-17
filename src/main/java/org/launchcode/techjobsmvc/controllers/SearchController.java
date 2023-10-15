@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping; // Use @PostMapping
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 
@@ -23,19 +24,18 @@ public class SearchController {
     // Add a handler to process a search request and render the updated search view.
     @PostMapping(value = "results")
     public String displaySearchResults(Model model,
-                                       String searchType, // Use the correct parameter names
-                                       String searchTerm) {
+                                       @RequestParam String searchType,
+                                       @RequestParam String searchTerm) {
         ArrayList<Job> jobs;
 
-        if (searchType.equals("all") || searchTerm.isEmpty()) {
-            jobs = JobData.findAll();
+        if (searchType.equals("all")) {
+            jobs = JobData.findByValue(searchTerm); // Use findByValue to filter by the keyword.
         } else {
             jobs = JobData.findByColumnAndValue(searchType, searchTerm);
         }
-// Use ListController.columnChoices
+
         model.addAttribute("columns", ListController.columnChoices);
         model.addAttribute("jobs", jobs);
 
         return "search";
-    }
-}
+    }}
